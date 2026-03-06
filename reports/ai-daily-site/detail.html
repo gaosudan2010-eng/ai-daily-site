@@ -28,14 +28,17 @@
     const el = document.getElementById('detail');
 
     function renderHeadline(item, idx) {
-      const safe = item || { fact: '待补充', insight: '待补充', opportunity: '待补充', sources: [] };
+      const safe = item || { title: '待补充', summary: '待补充', insight: '待补充', opportunity: '待补充', sources: [] };
       const sourceHtml = (safe.sources || []).length
         ? `<p class="kv"><b>溯源：</b>${safe.sources.map((s) => `<a href="${s}" target="_blank" rel="noopener">来源</a>`).join(' · ')}</p>`
         : '<p class="kv"><b>溯源：</b>待补充</p>';
+      const headlineTitle = safe.title || `要点 ${idx + 1}`;
+      const headlineSummary = safe.summary || safe.fact || '待补充';
       return `
         <li class="headline">
           <h3>0${idx + 1}</h3>
-          <p><b>事实：</b>${safe.fact || '待补充'}</p>
+          <p class="kv"><b>标题：</b>${headlineTitle}</p>
+          <p><b>摘要：</b>${headlineSummary}</p>
           ${sourceHtml}
           <p class="kv"><b>解读：</b>${safe.insight || '待补充'}</p>
           <p class="kv"><b>机会点：</b>${safe.opportunity || '待补充'}</p>
@@ -59,7 +62,7 @@
         </section>
 
         <section class="card">
-          <h2 class="section-title">重点事实（含溯源）</h2>
+          <h2 class="section-title">重点摘要（含溯源）</h2>
           <ol class="headline-list">
             ${headlines.map((h, idx) => renderHeadline(h, idx)).join('')}
           </ol>

@@ -30,7 +30,9 @@ window.AI_DAILY_DATA = [
             "type": "official"
           }
         ],
-        "lastVerifiedAt": "2026-03-06 23:20 Asia/Shanghai"
+        "lastVerifiedAt": "2026-03-06 23:20 Asia/Shanghai",
+        "title": "OpenAI Agents 工具链进入可编排阶段",
+        "summary": "OpenAI 在开发者文档和 Agents 工具叙事中，持续强调“模型能力 + 工具调用 + 执行可观测”的一体化链路。相比早期只看模型回答质量，现在更强调任务编排、执行追踪和失败恢复。"
       },
       {
         "fact": "Google 持续在 Workspace/Gemini 体系推进办公场景 AI 一体化体验。",
@@ -50,7 +52,9 @@ window.AI_DAILY_DATA = [
             "type": "official"
           }
         ],
-        "lastVerifiedAt": "2026-03-06 23:20 Asia/Shanghai"
+        "lastVerifiedAt": "2026-03-06 23:20 Asia/Shanghai",
+        "title": "Google 把 Gemini 深度嵌入办公入口",
+        "summary": "Google 继续强化 Gemini 在 Workspace 的实际执行场景，覆盖邮件、文档、会议等高频办公入口。AI 正从“辅助写作”走向“跨场景协作与自动化执行”。"
       },
       {
         "fact": "NVIDIA 持续更新企业 AI 计算与推理基础设施叙事，强调端到端性能与部署效率。",
@@ -70,7 +74,9 @@ window.AI_DAILY_DATA = [
             "type": "official"
           }
         ],
-        "lastVerifiedAt": "2026-03-06 23:20 Asia/Shanghai"
+        "lastVerifiedAt": "2026-03-06 23:20 Asia/Shanghai",
+        "title": "NVIDIA 继续押注企业级 AI 基础设施",
+        "summary": "NVIDIA 近期持续围绕企业 AI 的训练/推理基础设施发声，核心指向是性能、吞吐与部署效率。模型竞争的下半场，工程化基础设施仍是规模化落地的决定因素。"
       },
       {
         "fact": "多家厂商都在强调企业级安全、权限与审计，采购标准进一步抬高。",
@@ -95,7 +101,9 @@ window.AI_DAILY_DATA = [
             "type": "official"
           }
         ],
-        "lastVerifiedAt": "2026-03-06 23:20 Asia/Shanghai"
+        "lastVerifiedAt": "2026-03-06 23:20 Asia/Shanghai",
+        "title": "企业采购标准转向治理与安全",
+        "summary": "越来越多企业把 AI 采购标准从“能力演示”升级为“可治理、可审计、可控权限”。安全与合规能力正在成为续费与扩展采购的硬门槛。"
       },
       {
         "fact": "ai-daily-site 已形成“数据文件更新→脚本发布→Pages 生效”的固定交付路径。",
@@ -110,7 +118,9 @@ window.AI_DAILY_DATA = [
             "type": "reference"
           }
         ],
-        "lastVerifiedAt": "2026-03-06 23:20 Asia/Shanghai"
+        "lastVerifiedAt": "2026-03-06 23:20 Asia/Shanghai",
+        "title": "日报站点形成稳定生产与发布闭环",
+        "summary": "ai-daily-site 当前已形成“内容结构化 → data.js 更新 → publish 发布 → Pages 生效”的稳定链路，可支持持续日更与复盘。"
       }
     ],
     "actions": [
@@ -155,7 +165,9 @@ window.AI_DAILY_DATA = [
             "type": "media"
           }
         ],
-        "lastVerifiedAt": "2026-03-06 18:42 Asia/Shanghai"
+        "lastVerifiedAt": "2026-03-06 18:42 Asia/Shanghai",
+        "title": "OpenAI 产品分层信号增强",
+        "summary": "多家媒体持续跟进 OpenAI 新一轮产品分层方向，市场关注点从“单模型能力”转向“按任务复杂度分层交付”的产品设计。"
       },
       {
         "fact": "媒体报道显示 Anthropic 与美国国防采购链条出现风险争议。",
@@ -180,7 +192,9 @@ window.AI_DAILY_DATA = [
             "type": "media"
           }
         ],
-        "lastVerifiedAt": "2026-03-06 18:42 Asia/Shanghai"
+        "lastVerifiedAt": "2026-03-06 18:42 Asia/Shanghai",
+        "title": "Anthropic 面临采购与政策不确定性",
+        "summary": "媒体报道显示，Anthropic 在部分采购链条中面临政策与合规层面的不确定性。行业竞争已不止模型效果，采购可达性同样关键。"
       },
       {
         "fact": "AWS 发布 Amazon Connect Health，主打医疗场景下的 agentic AI 流程自动化。",
@@ -200,7 +214,9 @@ window.AI_DAILY_DATA = [
             "type": "official"
           }
         ],
-        "lastVerifiedAt": "2026-03-06 18:42 Asia/Shanghai"
+        "lastVerifiedAt": "2026-03-06 18:42 Asia/Shanghai",
+        "title": "AWS 以医疗场景推进 Agentic AI",
+        "summary": "AWS 发布面向医疗业务流程的 AI 自动化能力，表明头部云厂商在垂直行业里持续推进“场景化 Agent + 流程闭环”。"
       },
       {
         "fact": "行业信号显示 2026 年竞争已经形成“三层战场”：模型、分发、行业流程。",
@@ -225,7 +241,9 @@ window.AI_DAILY_DATA = [
             "type": "official"
           }
         ],
-        "lastVerifiedAt": "2026-03-06 18:42 Asia/Shanghai"
+        "lastVerifiedAt": "2026-03-06 18:42 Asia/Shanghai",
+        "title": "行业竞争进入“三层战场”",
+        "summary": "从近期信号看，AI 竞争已形成模型层、分发层、行业流程层并行推进。单点模型优势难以长期防守，体系化能力成为胜负手。"
       },
       {
         "fact": "日报生产流程已支持“内容->data.js->发布脚本->Pages”，可做成日更链路。",
@@ -240,7 +258,9 @@ window.AI_DAILY_DATA = [
             "type": "reference"
           }
         ],
-        "lastVerifiedAt": "2026-03-06 18:42 Asia/Shanghai"
+        "lastVerifiedAt": "2026-03-06 18:42 Asia/Shanghai",
+        "title": "日报流程具备产品化升级基础",
+        "summary": "日报生产流程已具备标准化能力，下一步重点是提升来源质量、内容深度与节奏稳定性，使其成为可运营的资讯产品。"
       }
     ],
     "actions": [
