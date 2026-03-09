@@ -21,6 +21,7 @@
       <section aria-label="今日总览" style="max-width:100%">
         <h2 class="section-title">今日总览</h2>
         <div id="dailyOverview" aria-live="polite"></div>
+        <div id="todayAction" aria-live="polite"></div>
       </section>
       <section aria-label="筛选器" style="max-width:100%">
         <div id="filters" class="filter-row" aria-live="polite"></div>
@@ -41,15 +42,18 @@
       const data = [...rawData].sort((a, b) => b.date.localeCompare(a.date));
       const reportListEl = document.getElementById('reportList');
       const overviewEl = document.getElementById('dailyOverview');
+      const todayActionEl = document.getElementById('todayAction');
       const filtersEl = document.getElementById('filters');
       const companyFiltersEl = document.getElementById('companyFilters');
       const tagFiltersEl = document.getElementById('tagFilters');
       let activeSignal = 'ALL';
       let activeCompany = 'ALL';
       let activeTag = 'ALL';
+      let activeSourceType = 'ALL';
 
       const companyPool = ['ALL', ...new Set(data.map(i => i.company).filter(Boolean))].slice(0, 7);
       const tagPool = ['ALL', ...new Set(data.flatMap(i => i.tags || []).filter(Boolean))].slice(0, 10);
+      const sourceTypePool = ['ALL', 'official', 'media', 'community'];
 
       function renderFilters() {
         const signals = ['ALL', 'S', 'A', 'B'];
@@ -63,6 +67,8 @@
 
         tagFiltersEl.innerHTML = tagPool.map(t => `
           <button class="chip ${activeTag===t ? 'chip-active' : ''}" onclick="window.__setTag('${t}')">${t==='ALL' ? '全部主题' : t}</button>
+        `).join('') + sourceTypePool.map(s => `
+          <button class="chip ${activeSourceType===s ? 'chip-active' : ''}" onclick="window.__setSourceType('${s}')">${s==='ALL' ? '全部来源' : s}</button>
         `).join('');
       }
 
@@ -80,6 +86,17 @@
         activeTag = t;
         renderFilters();
         renderList();
+      }
+      window.__setSourceType = function(s){
+        activeSourceType = s;
+        renderFilters();
+        renderList();
+      }
+
+      function hasSourceType(item, type) {
+        if (type === 'ALL') return true;
+        const metas = (item.headlines || []).flatMap(h => h.sourceMeta || []);
+        return metas.some(m => (m.type || '').toLowerCase() === type);
       }
 
       function renderOverview() {
@@ -105,6 +122,8 @@
             ${subHeadlines.length ? `<div class="subline"><strong>分线快讯：</strong><ul>${subHeadlines.map(h => `<li>${h.title || h.summary || ''}</li>`).join('')}</ul></div>` : ''}
           </article>
         `;
+        const todayAction = (latest.actions || [])[0] || '暂无今日动作';
+        todayActionEl.innerHTML = `<article class="card action-card"><div class="meta">今日动作</div><p>${todayAction}</p></article>`;
       }
 
       function renderList() {
@@ -112,7 +131,8 @@
           const signalOK = activeSignal === 'ALL' || (i.signalLevel || 'B') === activeSignal;
           const companyOK = activeCompany === 'ALL' || i.company === activeCompany;
           const tagOK = activeTag === 'ALL' || (i.tags || []).includes(activeTag);
-          return signalOK && companyOK && tagOK;
+          const sourceOK = hasSourceType(i, activeSourceType);
+          return signalOK && companyOK && tagOK && sourceOK;
         });
 
         if (!view.length) {
@@ -123,6 +143,7 @@
           const firstSource = item?.headlines?.[0]?.sources?.[0] || '';
           const signal = item.signalLevel || 'B';
           const whyNow = item.whyNow || '';
+          const sourceType = ((item.headlines || []).flatMap(h => h.sourceMeta || []).find(m => m.type)?.type || 'unknown').toLowerCase();
           return `
             <article class="card report-card" role="link" tabindex="0" onclick="window.location.href='./detail.html?id=${encodeURIComponent(item.id)}'" onkeydown="if(event.key==='Enter'){window.location.href='./detail.html?id=${encodeURIComponent(item.id)}'}">
               <div class="meta">
@@ -131,6 +152,8 @@
                 <span>${item.company}</span>
                 <span>·</span>
                 <span>信号等级 ${signal}</span>
+                <span>·</span>
+                <span>来源 ${sourceType}</span>
               </div>
               <h3>${item.title}</h3>
               <p>${item.summary}</p>

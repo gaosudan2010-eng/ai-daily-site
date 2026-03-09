@@ -28,19 +28,23 @@
       const target = data.find((d) => d.id === id);
       const el = document.getElementById('detail');
 
-      function getDomainChip(url) {
+      function getDomainChip(url, type='') {
         try {
           const host = new URL(url).hostname.replace(/^www\./, '');
-          return `<a class="domain-chip" href="${url}" target="_blank" rel="noopener" title="${url}">${host}</a>`;
+          return `<a class="domain-chip" href="${url}" target="_blank" rel="noopener" title="${url}">${host}${type ? ` · ${type}` : ''}</a>`;
         } catch {
           return `<a class="domain-chip" href="${url}" target="_blank" rel="noopener">来源</a>`;
         }
       }
 
+      function copyText(text) {
+        navigator.clipboard.writeText(text || '').then(() => alert('已复制')).catch(() => alert('复制失败'));
+      }
+
       function renderHeadline(item, idx) {
         const safe = item || { title: '待补充', summary: '待补充', insight: '待补充', opportunity: '待补充', sources: [] };
         const sourceHtml = (safe.sources || []).length
-          ? `<div class="source-row"><span class="block-label">来源</span><div class="domain-chips">${safe.sources.map((s) => getDomainChip(s)).join('')}</div></div>`
+          ? `<div class="source-row"><span class="block-label">来源</span><div class="domain-chips">${safe.sources.map((s, idx) => getDomainChip(s, safe.sourceMeta?.[idx]?.type || '')).join('')}</div></div>`
           : '<div class="source-row"><span class="block-label">来源</span><span class="source-empty">待补充</span></div>';
         const headlineTitle = safe.title || `要点 ${idx + 1}`;
         const headlineSummary = safe.summary || safe.fact || '待补充';
@@ -90,6 +94,10 @@
             </div>
             <h1>${dailyConclusion}</h1>
             <p>${dailyMainline}</p>
+            <div class="filter-row">
+              <button class="chip" onclick='copyText(${JSON.stringify('${dailyConclusion}')})'>复制主结论</button>
+              <button class="chip" onclick='copyText(${JSON.stringify('${(target.actions||[]).join("；")}')})'>复制行动建议</button>
+            </div>
           </section>
 
           <section class="card">
