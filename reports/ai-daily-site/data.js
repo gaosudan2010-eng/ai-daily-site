@@ -1,5 +1,135 @@
 window.AI_DAILY_DATA = [
   {
+    "id": "2026-03-09-openai-microsoft-google-anthropic-nvidia",
+    "date": "2026-03-09",
+    "title": "AI 行业晨报：企业入口持续固化，Agent 执行与治理并重",
+    "company": "OpenAI / Microsoft / Google / Anthropic / NVIDIA",
+    "priority": "P0",
+    "tags": [
+      "企业AI",
+      "Agent工程化",
+      "治理与基础设施"
+    ],
+    "summary": "今日可验证信号显示：头部厂商继续加固办公入口、Agent 执行链路与企业治理能力，竞争焦点仍是可交付与可规模化。",
+    "headlines": [
+      {
+        "fact": "OpenAI 官方文档与产品页面持续强调 Agents、Tools 与可编排执行能力。",
+        "sources": [
+          "https://platform.openai.com/docs/overview",
+          "https://openai.com/index/new-tools-for-building-agents/"
+        ],
+        "insight": "开发者竞争重心仍从“回答质量”转向“任务完成率与可观测性”。",
+        "opportunity": "把执行日志、失败回放、重试策略做成默认能力，提升企业上线信心。",
+        "sourceMeta": [
+          {
+            "url": "https://platform.openai.com/docs/overview",
+            "type": "official"
+          },
+          {
+            "url": "https://openai.com/index/new-tools-for-building-agents/",
+            "type": "official"
+          }
+        ],
+        "lastVerifiedAt": "2026-03-09 09:00 Asia/Shanghai",
+        "title": "OpenAI 持续推进 Agent 工程化",
+        "summary": "OpenAI 官方信息仍围绕 Agent 编排和工具调用展开，行业落地重点继续向可执行与可复盘迁移。"
+      },
+      {
+        "fact": "Microsoft 继续在 Microsoft 365 与安全产品中强化 Copilot 企业能力与管理控制。",
+        "sources": [
+          "https://www.microsoft.com/en-us/microsoft-365/copilot",
+          "https://www.microsoft.com/en-us/security/business/ai-machine-learning/microsoft-copilot-for-security"
+        ],
+        "insight": "办公入口被平台化后，独立产品需要更强跨系统执行价值。",
+        "opportunity": "优先做“邮件-文档-任务系统”联动自动化，避免沦为单点插件。",
+        "sourceMeta": [
+          {
+            "url": "https://www.microsoft.com/en-us/microsoft-365/copilot",
+            "type": "official"
+          },
+          {
+            "url": "https://www.microsoft.com/en-us/security/business/ai-machine-learning/microsoft-copilot-for-security",
+            "type": "official"
+          }
+        ],
+        "lastVerifiedAt": "2026-03-09 09:00 Asia/Shanghai",
+        "title": "Microsoft 加固企业级 Copilot 入口",
+        "summary": "微软持续把 Copilot 与企业安全治理绑定，采购决策将更看重可管控与可审计。"
+      },
+      {
+        "fact": "Google 持续推进 Gemini 与 Workspace 深度整合，覆盖邮件、文档、会议等高频场景。",
+        "sources": [
+          "https://workspace.google.com/products/gemini/",
+          "https://workspace.google.com/blog/product-announcements/"
+        ],
+        "insight": "AI 正成为办公主流程的默认能力，而非外挂功能。",
+        "opportunity": "围绕“会议纪要→行动项→任务回写”打造端到端闭环模板。",
+        "sourceMeta": [
+          {
+            "url": "https://workspace.google.com/products/gemini/",
+            "type": "official"
+          },
+          {
+            "url": "https://workspace.google.com/blog/product-announcements/",
+            "type": "official"
+          }
+        ],
+        "lastVerifiedAt": "2026-03-09 09:00 Asia/Shanghai",
+        "title": "Google 持续强化 Workspace 原生 AI",
+        "summary": "Gemini 在 Workspace 的持续深化，进一步抬高了办公场景 AI 的入口门槛。"
+      },
+      {
+        "fact": "Anthropic 公开信息继续强调企业信任、安全与合规能力建设。",
+        "sources": [
+          "https://www.anthropic.com/news",
+          "https://trust.anthropic.com/"
+        ],
+        "insight": "B 端竞争已进入“模型能力 + 治理能力”双门槛阶段。",
+        "opportunity": "将权限模型、审计日志、合规模板前置到企业版标准包。",
+        "sourceMeta": [
+          {
+            "url": "https://www.anthropic.com/news",
+            "type": "official"
+          },
+          {
+            "url": "https://trust.anthropic.com/",
+            "type": "official"
+          }
+        ],
+        "lastVerifiedAt": "2026-03-09 09:00 Asia/Shanghai",
+        "title": "Anthropic 持续押注企业可信治理",
+        "summary": "从公开叙事看，Anthropic 继续把安全、透明与可控性作为企业市场核心卖点。"
+      },
+      {
+        "fact": "NVIDIA 官方 AI 页面与博客持续强调训练/推理基础设施与部署效率。",
+        "sources": [
+          "https://www.nvidia.com/en-us/ai/",
+          "https://blogs.nvidia.com/"
+        ],
+        "insight": "应用层创新速度仍受制于算力成本、吞吐与时延约束。",
+        "opportunity": "建立按任务等级的模型路由与预算机制，平衡效果、速度与成本。",
+        "sourceMeta": [
+          {
+            "url": "https://www.nvidia.com/en-us/ai/",
+            "type": "official"
+          },
+          {
+            "url": "https://blogs.nvidia.com/",
+            "type": "official"
+          }
+        ],
+        "lastVerifiedAt": "2026-03-09 09:00 Asia/Shanghai",
+        "title": "NVIDIA 基础设施叙事持续强化",
+        "summary": "基础设施层的效率优化仍是规模化落地关键，决定了应用层可持续迭代空间。"
+      }
+    ],
+    "actions": [
+      "将日报质量门槛固定为：5条事实均含可点击来源、sourceMeta、lastVerifiedAt。",
+      "在站点增加“机会/风险”摘要卡片，便于早会 1 分钟读取。",
+      "本周建立模型路由看板：按任务等级跟踪成本、延迟、完成率。"
+    ]
+  },
+  {
     "id": "2026-03-08-openai-anthropic-microsoft-google-nvidia",
     "date": "2026-03-08",
     "title": "AI 行业晨报：政策变量抬升，平台与基础设施继续并线推进",
