@@ -3,76 +3,65 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="AI 日报中心：支持列表浏览与详情阅读。" />
+  <meta name="description" content="AI 日报中心：支持公司/优先级筛选、月度归档、详情阅读。" />
   <title>AI 日报中心</title>
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <div class="aurora" aria-hidden="true"></div>
-  <a class="skip-link" href="#mainContent">跳到主要内容</a>
-
   <div class="container">
     <header class="header" role="banner">
       <div>
-        <p class="eyebrow">AI DAILY BRIEFING</p>
-        <h1 class="title">🥧 AI 日报中心</h1>
+        <h1 class="title">AI 日报</h1>
         <p class="sub">标题 · 摘要 · 来源（可点击）</p>
       </div>
-      <div class="pill">当前结果 <strong id="resultCount">0</strong> 篇</div>
     </header>
 
     <main id="mainContent" tabindex="-1">
       <section aria-label="日报列表" style="max-width:100%">
-        <h2 class="section-title">日报列表（按时间倒序）</h2>
+        <h2 class="section-title">日报列表</h2>
         <div id="reportList" aria-live="polite"></div>
       </section>
     </main>
-
-    <footer class="footer">AI Daily Site · Detail-ready · Source-first</footer>
   </div>
 
-  <script src="./data.js"></script>
   <script>
-    const rawData = window.AI_DAILY_DATA || [];
-    const data = [...rawData].sort((a, b) => b.date.localeCompare(a.date));
-    const reportListEl = document.getElementById('reportList');
-    const resultCountEl = document.getElementById('resultCount');
+    function initDailyData() {
+      const rawData = window.AI_DAILY_DATA || [];
+      const data = [...rawData].sort((a, b) => b.date.localeCompare(a.date));
+      const reportListEl = document.getElementById('reportList');
 
-    function hostOf(url) {
-      try { return new URL(url).hostname.replace('www.', ''); }
-      catch { return '来源'; }
-    }
+      function render() {
+        if (!data.length) {
+          reportListEl.innerHTML = '<div class="card empty" role="status">暂无日报数据。</div>';
+          return;
+        }
 
-    function render() {
-      resultCountEl.textContent = String(data.length);
-      if (!data.length) {
-        reportListEl.innerHTML = '<div class="card empty" role="status">暂无日报数据。</div>';
-        return;
+        reportListEl.innerHTML = data
+          .map((item) => {
+            const firstSource = item?.headlines?.[0]?.sources?.[0] || '';
+            return `
+            <article class="card report-card" role="link" tabindex="0" onclick="window.location.href='./detail.html?id=${encodeURIComponent(item.id)}'" onkeydown="if(event.key==='Enter'){window.location.href='./detail.html?id=${encodeURIComponent(item.id)}'}">
+              <div class="meta">
+                <span>${item.date}</span>
+                <span>·</span>
+                <span>${item.company}</span>
+              </div>
+              <h3>${item.title}</h3>
+              <p>${item.summary}</p>
+              ${firstSource ? `<a class="text-link" href="${firstSource}" target="_blank" rel="noopener" onclick="event.stopPropagation()">来源</a>` : ''}
+            </article>
+          `;
+          })
+          .join('');
       }
 
-      reportListEl.innerHTML = data
-        .map((item) => {
-          const firstSource = item?.headlines?.[0]?.sources?.[0] || '';
-          const sourceLabel = firstSource ? hostOf(firstSource) : '';
-          return `
-          <article class="card report-card" role="link" tabindex="0" onclick="window.location.href='./detail.html?id=${encodeURIComponent(item.id)}'" onkeydown="if(event.key==='Enter'){window.location.href='./detail.html?id=${encodeURIComponent(item.id)}'}">
-            <div class="meta">
-              <span>${item.date}</span>
-              <span>·</span>
-              <span>${item.company}</span>
-              <span>·</span>
-              <span>${(item.headlines || []).length} 条摘要</span>
-            </div>
-            <h3>${item.title}</h3>
-            <p>${item.summary}</p>
-            ${firstSource ? `<a class="text-link" href="${firstSource}" target="_blank" rel="noopener" onclick="event.stopPropagation()">来源：${sourceLabel}</a>` : ''}
-          </article>
-        `;
-        })
-        .join('');
+      render();
     }
 
-    render();
+    const script = document.createElement('script');
+    script.src = `./data.js?v=${Date.now()}`;
+    script.onload = initDailyData;
+    document.body.appendChild(script);
   </script>
 </body>
 </html>

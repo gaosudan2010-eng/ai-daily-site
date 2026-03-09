@@ -3,14 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="AI 日报详情页：5条头条（摘要、解读、机会点）与行动建议。" />
+  <meta name="description" content="AI 日报详情页：5条头条（事实、解读、机会点）与行动建议。" />
   <title>日报详情</title>
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <div class="aurora" aria-hidden="true"></div>
-  <a class="skip-link" href="#detailMain">跳到主要内容</a>
-
   <div class="container">
     <header class="detail-top">
       <a class="btn secondary" href="./index.html" aria-label="返回日报列表">← 返回列表</a>
@@ -19,81 +16,93 @@
     <main id="detailMain" tabindex="-1">
       <article id="detail"></article>
     </main>
+
   </div>
 
-  <script src="./data.js"></script>
   <script>
-    const params = new URLSearchParams(location.search);
-    const id = params.get('id');
-    const data = window.AI_DAILY_DATA || [];
-    const target = data.find((d) => d.id === id);
-    const el = document.getElementById('detail');
+    function initDailyDetail() {
+      const params = new URLSearchParams(location.search);
+      const id = params.get('id');
+      const data = window.AI_DAILY_DATA || [];
+      const target = data.find((d) => d.id === id);
+      const el = document.getElementById('detail');
 
-    function hostOf(url) {
-      try { return new URL(url).hostname.replace('www.', ''); }
-      catch { return '来源'; }
+      function getDomainChip(url) {
+        try {
+          const host = new URL(url).hostname.replace(/^www\./, '');
+          return `<a class="domain-chip" href="${url}" target="_blank" rel="noopener" title="${url}">${host}</a>`;
+        } catch {
+          return `<a class="domain-chip" href="${url}" target="_blank" rel="noopener">来源</a>`;
+        }
+      }
+
+      function renderHeadline(item, idx) {
+        const safe = item || { title: '待补充', summary: '待补充', insight: '待补充', opportunity: '待补充', sources: [] };
+        const sourceHtml = (safe.sources || []).length
+          ? `<div class="source-row"><span class="block-label">来源</span><div class="domain-chips">${safe.sources.map((s) => getDomainChip(s)).join('')}</div></div>`
+          : '<div class="source-row"><span class="block-label">来源</span><span class="source-empty">待补充</span></div>';
+        const headlineTitle = safe.title || `要点 ${idx + 1}`;
+        const headlineSummary = safe.summary || safe.fact || '待补充';
+        return `
+          <li class="headline">
+            <div class="headline-no">0${idx + 1}</div>
+            <section class="headline-block">
+              <p class="block-label">标题</p>
+              <h3 class="block-title">${headlineTitle}</h3>
+            </section>
+            <section class="headline-block">
+              <p class="block-label">摘要</p>
+              <p class="block-text">${headlineSummary}</p>
+            </section>
+            <section class="headline-block">
+              <p class="block-label">解读</p>
+              <p class="block-text kv-strong">${safe.insight || '待补充'}</p>
+            </section>
+            <section class="headline-block">
+              <p class="block-label">机会点</p>
+              <p class="block-text opp">${safe.opportunity || '待补充'}</p>
+            </section>
+            ${sourceHtml}
+          </li>
+        `;
+      }
+
+      if (!target) {
+        document.title = '日报不存在';
+        el.innerHTML = '<section class="card empty" role="alert">未找到该日报，请返回列表重试。</section>';
+      } else {
+        document.title = `${target.title} · 日报详情`;
+        const headlines = Array.from({ length: 5 }, (_, i) => (target.headlines || [])[i]);
+        el.innerHTML = `
+          <section class="card">
+            <div class="meta">
+              <span>${target.date}</span><span>·</span><span>${target.company}</span>
+            </div>
+            <h1>${target.title}</h1>
+            <p>${target.summary}</p>
+          </section>
+
+          <section class="card">
+            <h2 class="section-title">重点摘要（含溯源）</h2>
+            <ol class="headline-list">
+              ${headlines.map((h, idx) => renderHeadline(h, idx)).join('')}
+            </ol>
+          </section>
+
+          <section class="card">
+            <h2 class="section-title">行动建议</h2>
+            <ul class="actions">
+              ${(target.actions || []).map((a) => `<li>${a}</li>`).join('')}
+            </ul>
+          </section>
+        `;
+      }
     }
 
-    function renderHeadline(item, idx) {
-      const safe = item || { title: '待补充', summary: '待补充', insight: '待补充', opportunity: '待补充', sources: [] };
-      const headlineTitle = safe.title || `要点 ${idx + 1}`;
-      const headlineSummary = safe.summary || safe.fact || '待补充';
-
-      const sourceHtml = (safe.sources || []).length
-        ? `<div class="source-list">${safe.sources
-            .map((s) => `<a class="source-chip" href="${s}" target="_blank" rel="noopener">${hostOf(s)}</a>`)
-            .join('')}</div>`
-        : '<p class="kv"><b>溯源：</b>待补充</p>';
-
-      return `
-        <li class="headline">
-          <div class="headline-head">
-            <h3 class="headline-no">${String(idx + 1).padStart(2, '0')}</h3>
-            <h4 class="headline-title">${headlineTitle}</h4>
-          </div>
-          <p class="headline-summary"><b>摘要：</b>${headlineSummary}</p>
-          ${sourceHtml}
-          <p class="kv"><b>解读：</b>${safe.insight || '待补充'}</p>
-          <p class="kv"><b>机会点：</b>${safe.opportunity || '待补充'}</p>
-        </li>
-      `;
-    }
-
-    if (!target) {
-      document.title = '日报不存在';
-      el.innerHTML = '<section class="card empty" role="alert">未找到该日报，请返回列表重试。</section>';
-    } else {
-      document.title = `${target.title} · 日报详情`;
-      const headlines = Array.from({ length: 5 }, (_, i) => (target.headlines || [])[i]);
-      el.innerHTML = `
-        <section class="card detail-hero">
-          <div class="meta">
-            <span>${target.date}</span><span>·</span><span>${target.company}</span>
-          </div>
-          <h1>${target.title}</h1>
-          <p>${target.summary}</p>
-          <div class="detail-stats">
-            <span class="stat-chip">5 条重点摘要</span>
-            <span class="stat-chip">${(target.actions || []).length} 条行动建议</span>
-            <span class="stat-chip">可点击溯源</span>
-          </div>
-        </section>
-
-        <section class="card">
-          <h2 class="section-title">重点摘要（含溯源）</h2>
-          <ol class="headline-list">
-            ${headlines.map((h, idx) => renderHeadline(h, idx)).join('')}
-          </ol>
-        </section>
-
-        <section class="card">
-          <h2 class="section-title">行动建议</h2>
-          <ul class="actions">
-            ${(target.actions || []).map((a) => `<li>${a}</li>`).join('')}
-          </ul>
-        </section>
-      `;
-    }
+    const script = document.createElement('script');
+    script.src = `./data.js?v=${Date.now()}`;
+    script.onload = initDailyDetail;
+    document.body.appendChild(script);
   </script>
 </body>
 </html>
