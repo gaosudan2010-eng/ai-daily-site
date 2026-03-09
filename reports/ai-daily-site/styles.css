@@ -115,8 +115,10 @@ body {
   font-weight: 600;
   color: var(--muted);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   margin-bottom: 8px;
+  line-height: 1.5;
+  word-break: break-word;
 }
 
 .priority {

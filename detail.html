@@ -22,6 +22,7 @@
   <script>
     function initDailyDetail() {
       const params = new URLSearchParams(location.search);
+      const fmtTime = (t='') => t.replace('Asia/Shanghai','CST').replace('  ', ' ');
       const id = params.get('id');
       const data = window.AI_DAILY_DATA || [];
       const target = data.find((d) => d.id === id);
@@ -78,7 +79,8 @@
         document.title = `${target.title} · 日报详情`;
         const headlines = Array.from({ length: 5 }, (_, i) => (target.headlines || [])[i]);
         const riskTemp = target.riskTemperature || '未标注';
-        const updatedAt = target.lastUpdatedAt || target.headlines?.[0]?.lastVerifiedAt || '未标注';
+        const updatedAtRaw = target.lastUpdatedAt || target.headlines?.[0]?.lastVerifiedAt || '未标注';
+        const updatedAt = fmtTime(updatedAtRaw);
         const dailyConclusion = target.dailyConclusion || target.title;
         const dailyMainline = target.dailyMainline || target.summary;
         el.innerHTML = `

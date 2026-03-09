@@ -37,6 +37,7 @@
   <script>
     function initDailyData() {
       const rawData = window.AI_DAILY_DATA || [];
+      const fmtTime = (t='') => t.replace('Asia/Shanghai','CST').replace('  ', ' ');
       const data = [...rawData].sort((a, b) => b.date.localeCompare(a.date));
       const reportListEl = document.getElementById('reportList');
       const overviewEl = document.getElementById('dailyOverview');
@@ -89,7 +90,8 @@
         const latest = data[0];
         const riskTemp = latest.riskTemperature || '未标注';
         const mainLine = latest.dailyMainline || latest.summary || '暂无主线';
-        const updatedAt = latest.lastUpdatedAt || latest.headlines?.[0]?.lastVerifiedAt || '未标注';
+        const updatedAtRaw = latest.lastUpdatedAt || latest.headlines?.[0]?.lastVerifiedAt || '未标注';
+        const updatedAt = fmtTime(updatedAtRaw);
         const dailyConclusion = latest.dailyConclusion || latest.title;
         const mainHeadline = latest.headlines?.[0];
         const subHeadlines = (latest.headlines || []).slice(1, 4);
